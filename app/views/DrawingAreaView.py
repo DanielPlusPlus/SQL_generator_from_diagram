@@ -1,5 +1,4 @@
 from PySide6.QtWidgets import QWidget
-from PySide6.QtCore import QPoint
 
 
 class DrawingAreaView(QWidget):
@@ -10,10 +9,11 @@ class DrawingAreaView(QWidget):
 
     def setupUI(self):
         self.setObjectName(u"DrawingArea")
-        self.cursorPosition = QPoint()
 
     def mouseMoveEvent(self, event):
         self.DrawingAreaController.handleMouseMove(event)
+        self.update()
 
     def mousePressEvent(self, event):
         self.DrawingAreaController.handleMousePress(event)
+        self.update()
