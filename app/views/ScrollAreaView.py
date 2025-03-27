@@ -1,11 +1,10 @@
-from PySide6.QtWidgets import QWidget, QScrollArea
+from PySide6.QtWidgets import QScrollArea
 
 
-class ScrollAreaView(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.ScrollArea = QScrollArea(self)
+class ScrollAreaView(QScrollArea):
+    def __init__(self, ParentWindow):
+        super().__init__(ParentWindow)
 
     def setupUI(self, DrawingAreaView):
-        self.ScrollArea.setWidget(DrawingAreaView)
-        self.ScrollArea.setWidgetResizable(True)
+        self.setWidget(DrawingAreaView)
+        self.setWidgetResizable(True)

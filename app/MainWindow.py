@@ -31,17 +31,17 @@ class MainWindow(QMainWindow):
         self.TableModel = TableModel()
 
         # views
-        self.ScrollAreaView = ScrollAreaView()
+        self.ScrollAreaView = ScrollAreaView(self)
         self.DrawingAreaView = DrawingAreaView(self.DrawingAreaController)
+        self.ScrollAreaView.setupUI(self.DrawingAreaView)
         self.DrawingAreaView.setupUI()
-        self.MainWindowView.addCentralWidget(self.DrawingAreaView)
+        self.MainWindowView.addCentralWidget(self.ScrollAreaView)
 
         # controller
         self.ToolBarController.setTableModel(self.TableModel)
         self.DrawingAreaController.setView(self.DrawingAreaView)
         self.DrawingAreaController.setModel(self.TableModel)
         self.DrawingAreaController.setFriendlyController(self.MainWindowController)
-
 
         # views
         self.DrawingAreaView.setTableModel(self.TableModel)

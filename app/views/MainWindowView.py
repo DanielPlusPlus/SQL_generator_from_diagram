@@ -21,8 +21,6 @@ class MainWindowView(object):
 
         self.gridLayout.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
 
-        # self.gridLayout.setRowStretch(0, 1)
-        # self.gridLayout.setRowStretch(1, 9)
         parentWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QMenuBar(parentWindow)
         self.menuBar.setObjectName(u"MenuBar")
