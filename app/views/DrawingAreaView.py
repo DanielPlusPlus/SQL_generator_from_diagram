@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import QPainter, QPen, QColor
-from PySide6.QtCore import Qt
+from app.views.TableView import TableView
 
 
 class DrawingAreaView(QWidget):
@@ -17,6 +16,9 @@ class DrawingAreaView(QWidget):
     def setTableModel(self, TableModel):
         self.TableModel = TableModel
 
+    def setTableView(self):
+        self.TableView = TableView(self.TableModel, self)
+
     def mouseMoveEvent(self, event):
         self.DrawingAreaController.handleMouseMove(event)
         self.update()
@@ -26,14 +28,4 @@ class DrawingAreaView(QWidget):
         self.update()
 
     def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.setPen(QPen(QColor(Qt.GlobalColor.black), 2, Qt.PenStyle.SolidLine))
-
-        for tableRectangle in self.TableModel.tables:
-            self.drawTable(painter, tableRectangle)
-
-    def drawTable(self, painter, tableRectangle):
-        for i in range(5):
-            y = tableRectangle.top() + i * 5
-            painter.drawLine(tableRectangle.left(), y, tableRectangle.right(), y)
-        painter.drawRect(tableRectangle)
+        self.TableView.drawTables()

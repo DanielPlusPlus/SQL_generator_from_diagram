@@ -1,4 +1,6 @@
 from PySide6.QtCore import QPoint
+
+
 class ToolBarController:
     def __init__(self, ToolBarView):
         self.TableModel = None

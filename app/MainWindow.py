@@ -45,3 +45,4 @@ class MainWindow(QMainWindow):
 
         # views
         self.DrawingAreaView.setTableModel(self.TableModel)
+        self.DrawingAreaView.setTableView()
