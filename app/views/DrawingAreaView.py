@@ -1,5 +1,4 @@
 from PySide6.QtWidgets import QWidget
-from app.views.TableView import TableView
 
 
 class DrawingAreaView(QWidget):
@@ -8,6 +7,7 @@ class DrawingAreaView(QWidget):
         self.setMinimumSize(500, 500)
         self.DrawingAreaController = DrawingAreaController
         self.TableModel = None
+        self.TableController = None
         self.setMouseTracking(True)
 
     def setupUI(self):
@@ -15,9 +15,6 @@ class DrawingAreaView(QWidget):
 
     def setTableModel(self, TableModel):
         self.TableModel = TableModel
-
-    def setTableView(self):
-        self.TableView = TableView(self.TableModel, self)
 
     def mouseMoveEvent(self, event):
         self.DrawingAreaController.handleMouseMove(event)
@@ -28,4 +25,4 @@ class DrawingAreaView(QWidget):
         self.update()
 
     def paintEvent(self, event):
-        self.TableView.drawTables()
+        self.DrawingAreaController.handlePaintEvent()

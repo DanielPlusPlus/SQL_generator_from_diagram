@@ -1,30 +1,40 @@
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QPoint
 
 from app.models.TableModel import TableModel
-from PySide6.QtCore import QPoint
 
 
 class DrawingAreaController:
     def __init__(self):
         self.DrawingAreaView = None
         self.cursorPosition = QPoint()
-        self.Model = None
-        self.Controller = None
+        self.MainWindowController = None
+        self.TableModel = None
+        self.TableController = None
+        self.TableView = None
 
-    def setView(self, DrawingAreaView):
+    def setDrawingAreaView(self, DrawingAreaView):
         self.DrawingAreaView = DrawingAreaView
 
-    def setModel(self, SupportedModel):
-        self.Model = SupportedModel
+    def setTableView(self, TableView):
+        self.TableView = TableView
 
-    def setFriendlyController(self, FriendlyController):
-        self.Controller = FriendlyController
+    def setTableModel(self, TableModelObj):
+        self.TableModel = TableModelObj
+
+    def setMainWindowController(self, MainWindowController):
+        self.MainWindowController = MainWindowController
+
+    def setTableController(self, TableController):
+        self.TableController = TableController
 
     def handleMouseMove(self, event):
         self.cursorPosition = event.position().toPoint()
-        self.Controller.updateStatusBarInView(self.cursorPosition)
+        self.MainWindowController.updateStatusBarInView(self.cursorPosition)
 
     def handleMousePress(self, event):
         if event.button() == Qt.MouseButton.LeftButton:
-            self.Model = TableModel()
-            self.Model.addTable(self.cursorPosition)
+            self.TableModel = TableModel()
+            self.TableModel.addTable(self.cursorPosition)
+
+    def handlePaintEvent(self):
+        self.TableController.selectDrawTable()

@@ -4,9 +4,11 @@ from app.views.MainWindowView import MainWindowView
 from app.views.ToolBarView import ToolBarView
 from app.views.ScrollAreaView import ScrollAreaView
 from app.views.DrawingAreaView import DrawingAreaView
+from app.views.TableView import TableView
 from app.controllers.MainWindowController import MainWindowController
 from app.controllers.ToolBarController import ToolBarController
 from app.controllers.DrawingAreaController import DrawingAreaController
+from app.controllers.TableController import TableController
 from app.models.TableModel import TableModel
 
 
@@ -36,13 +38,17 @@ class MainWindow(QMainWindow):
         self.ScrollAreaView.setupUI(self.DrawingAreaView)
         self.DrawingAreaView.setupUI()
         self.MainWindowView.addCentralWidget(self.ScrollAreaView)
+        self.TableView = TableView(self.TableModel, self.DrawingAreaView)
 
-        # controller
+        # controllers
         self.ToolBarController.setTableModel(self.TableModel)
-        self.DrawingAreaController.setView(self.DrawingAreaView)
-        self.DrawingAreaController.setModel(self.TableModel)
-        self.DrawingAreaController.setFriendlyController(self.MainWindowController)
+        self.DrawingAreaController.setDrawingAreaView(self.DrawingAreaView)
+        self.DrawingAreaController.setTableView(self.TableView)
+        self.DrawingAreaController.setTableModel(self.TableModel)
+        self.DrawingAreaController.setMainWindowController(self.MainWindowController)
+        self.DrawingAreaController.setTableModel(self.TableModel)
+        self.TableController = TableController(self.TableView)
+        self.DrawingAreaController.setTableController(self.TableController)
 
         # views
         self.DrawingAreaView.setTableModel(self.TableModel)
-        self.DrawingAreaView.setTableView()
