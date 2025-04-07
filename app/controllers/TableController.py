@@ -28,8 +28,9 @@ class TableController:
 
     def selectTableInMotion(self, cursorPosition):
         self.TempTable = self.TableModel.getTableFromPosition(cursorPosition)
-        self.TableModel.deleteSelectedTable(self.TempTable)
-        self.isTableInMotion = True
+        if self.TempTable is not None:
+            self.TableModel.deleteSelectedTable(self.TempTable)
+            self.isTableInMotion = True
 
     def unselectTableInMotion(self, cursorPosition):
         self.TempTable.changeTablePosition(cursorPosition.x(), cursorPosition.y())
