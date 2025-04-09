@@ -1,5 +1,6 @@
 from app.views.ConfirmationDialogView import ConfirmationDialogView
 from app.views.TableContextMenuView import TableContextMenuView
+from app.views.EditTableDialogView import EditTableDialogView
 from app.controllers.TableContextMenuController import TableContextMenuController
 from app.enums.TableContextMenuEnum import TableContextMenuEnum
 
@@ -28,10 +29,12 @@ class TableController:
             if ConfirmationDialog.displayDialog():
                 self.TableModel.deleteSelectedTable(ObtainedTable)
 
-    def displayTable(self, cursorPosition):
+    def editTable(self, cursorPosition):
         ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
         if ObtainedTable is not None:
-            print(ObtainedTable.getTableNumber())
+            Dialog = EditTableDialogView(self.ParentWindow)
+            Dialog.setupUi()
+            Dialog.exec()
 
     def selectTableInMotion(self, cursorPosition):
         self.TempTable = self.TableModel.getTableFromPosition(cursorPosition)

@@ -1,0 +1,108 @@
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (QComboBox, QDialog, QFrame, QGridLayout, QHBoxLayout, QLabel, QLineEdit,
+                               QPushButton, QSizePolicy, QSpinBox, QTableView, QWidget)
+
+
+class EditTableDialogView(QDialog):
+    def __init__(self, ParentWindow):
+        super().__init__(ParentWindow)
+
+    def setupUi(self):
+        if not self.objectName():
+            self.setObjectName(u"EditTableDialog")
+        self.resize(600, 400)
+        self.setWindowTitle(u"Edit Table")
+
+        self.gridLayout = QGridLayout(self)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.label_2 = QLabel(u"Table Name", self)
+        self.label_2.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit = QLineEdit(self)
+        self.horizontalLayout.addWidget(self.label_2)
+        self.horizontalLayout.addWidget(self.lineEdit)
+        self.horizontalLayout.setStretch(0, 3)
+        self.horizontalLayout.setStretch(1, 7)
+        self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.addStretch()
+        self.gridLayout.addLayout(self.horizontalLayout_2, 0, 1, 1, 2)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.label = QLabel(u"Column Name", self)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lineEdit_2 = QLineEdit(self)
+        self.horizontalLayout_3.addWidget(self.label)
+        self.horizontalLayout_3.addWidget(self.lineEdit_2)
+        self.horizontalLayout_3.setStretch(0, 3)
+        self.horizontalLayout_3.setStretch(1, 7)
+        self.gridLayout.addLayout(self.horizontalLayout_3, 1, 0, 1, 1)
+
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.label_3 = QLabel(u"Data type", self)
+        self.label_3.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.comboBox = QComboBox(self)
+        self.horizontalLayout_4.addWidget(self.label_3)
+        self.horizontalLayout_4.addWidget(self.comboBox)
+        self.horizontalLayout_4.setStretch(0, 5)
+        self.horizontalLayout_4.setStretch(1, 5)
+        self.gridLayout.addLayout(self.horizontalLayout_4, 1, 1, 1, 1)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.label_4 = QLabel(u"Length", self)
+        self.label_4.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.spinBox = QSpinBox(self)
+        self.horizontalLayout_5.addWidget(self.label_4)
+        self.horizontalLayout_5.addWidget(self.spinBox)
+        self.horizontalLayout_5.setStretch(0, 5)
+        self.horizontalLayout_5.setStretch(1, 5)
+        self.gridLayout.addLayout(self.horizontalLayout_5, 1, 2, 1, 1)
+
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.tableView = QTableView(self)
+        self.tableView.setFrameShape(QFrame.Shape.StyledPanel)
+        self.horizontalLayout_7.addWidget(self.tableView)
+        self.gridLayout.addLayout(self.horizontalLayout_7, 2, 0, 1, 3)
+
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.pushButton = QPushButton(u"Add Column", self)
+        self.pushButton_2 = QPushButton(u"Delete Selected Column", self)
+        self.pushButton_3 = QPushButton(u"Edit Selected Column", self)
+        self.horizontalLayout_8.addWidget(self.pushButton)
+        self.horizontalLayout_8.addWidget(self.pushButton_2)
+        self.horizontalLayout_8.addWidget(self.pushButton_3)
+        self.horizontalLayout_8.setStretch(0, 1)
+        self.horizontalLayout_8.setStretch(1, 1)
+        self.horizontalLayout_8.setStretch(2, 1)
+        self.gridLayout.addLayout(self.horizontalLayout_8, 3, 0, 1, 3)
+
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_10 = QHBoxLayout()
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_12 = QHBoxLayout()
+        self.pleceholderWidget_1 = QWidget(self)
+        self.pleceholderWidget_2 = QWidget(self)
+        self.pushButton_4 = QPushButton(u"Cancel", self)
+        self.pushButton_5 = QPushButton(u"OK", self)
+        self.horizontalLayout_10.addWidget(self.pleceholderWidget_1)
+        self.horizontalLayout_11.addWidget(self.pleceholderWidget_1)
+        self.horizontalLayout_12.addWidget(self.pushButton_4)
+        self.horizontalLayout_12.addWidget(self.pushButton_5)
+        self.horizontalLayout_9.addLayout(self.horizontalLayout_10)
+        self.horizontalLayout_9.addLayout(self.horizontalLayout_11)
+        self.horizontalLayout_9.addLayout(self.horizontalLayout_12)
+        self.horizontalLayout_9.setStretch(0, 1)
+        self.horizontalLayout_9.setStretch(1, 1)
+        self.horizontalLayout_9.setStretch(2, 1)
+
+        self.gridLayout.addLayout(self.horizontalLayout_9, 4, 0, 1, 3)
+
+        self.gridLayout.setRowStretch(0, 1)
+        self.gridLayout.setRowStretch(1, 1)
+        self.gridLayout.setRowStretch(2, 6)
+        self.gridLayout.setRowStretch(3, 1)
+        self.gridLayout.setRowStretch(4, 1)
+        self.gridLayout.setColumnStretch(0, 5)
+        self.gridLayout.setColumnStretch(1, 3)
+        self.gridLayout.setColumnStretch(2, 2)

@@ -44,7 +44,7 @@ class DrawingAreaController:
                 globalCursorPosition = self.DrawingAreaView.convertCursorPositionToGlobal(self.cursorPosition)
                 result = self.TableController.displayTableContextMenu(self.cursorPosition, globalCursorPosition)
                 if result == TableContextMenuEnum.EDIT:
-                    self.TableController.displayTable(self.cursorPosition)
+                    self.TableController.editTable(self.cursorPosition)
                 elif result == TableContextMenuEnum.DELETE:
                     self.TableController.deleteTable(self.cursorPosition)
 
