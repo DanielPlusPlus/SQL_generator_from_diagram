@@ -31,15 +31,16 @@ class DrawingAreaController:
         if event.button() == Qt.MouseButton.LeftButton:
             if self.ToolBarController.getCreateTableToolStatus():
                 self.TableController.addTable(self.cursorPosition)
-            elif self.TableController.getTableInMotionStatus():
-                self.TableController.unselectTableInMotion(self.cursorPosition)
+                self.ToolBarController.unselectCreateTableTool()
+            elif self.TableController.getTableInTransferStatus():
+                self.TableController.unselectTableInTransfer(self.cursorPosition)
             elif self.TableController.getContextMenuAtWorkStatus():
                 self.TableController.unselectContextMenuAtWork()
             else:
-                self.TableController.selectTableInMotion(self.cursorPosition)
+                self.TableController.selectTableInTransfer(self.cursorPosition)
         elif event.button() == Qt.MouseButton.RightButton:
             if self.ToolBarController.getCreateTableToolStatus():
-                pass  # miejsce na anulowanie rysowania
+                pass  # miejsce na anulowanie rysowania self.ToolBarController.unselectCreateTableTool()
             else:
                 globalCursorPosition = self.DrawingAreaView.convertCursorPositionToGlobal(self.cursorPosition)
                 result = self.TableController.displayTableContextMenu(self.cursorPosition, globalCursorPosition)
@@ -48,14 +49,9 @@ class DrawingAreaController:
                 elif result == TableContextMenuEnum.DELETE:
                     self.TableController.deleteTable(self.cursorPosition)
 
-    def handleMouseRelease(self, event):
-        if event.button() == Qt.MouseButton.LeftButton:
-            if self.ToolBarController.getCreateTableToolStatus():
-                self.ToolBarController.unselectCreateTableTool()
-
     def handlePaintEvent(self):
         if self.ToolBarController.getCreateTableToolStatus():
             self.TableController.selectDrawTempTable(self.cursorPosition)
-        elif self.TableController.getTableInMotionStatus():
+        elif self.TableController.getTableInTransferStatus():
             self.TableController.selectDrawTempTable(self.cursorPosition)
         self.TableController.selectDrawTable()

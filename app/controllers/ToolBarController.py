@@ -8,6 +8,7 @@ class ToolBarController:
         ToolBarView.actionCreate_n_n_Rel.triggered.connect(self.selectCreate_n_n_Rel)
         ToolBarView.actionSaveDiagram.triggered.connect(self.selectSaveDiagram)
         ToolBarView.actionGenerateSQL.triggered.connect(self.selectGenerateSQL)
+        # trzeba stworzyc anulowanie akcji
 
     def setTableModel(self, TableModel):
         self.TableModel = TableModel

@@ -24,10 +24,6 @@ class DrawingAreaView(QWidget):
         self.DrawingAreaController.handleMousePress(event)
         self.update()
 
-    def mouseReleaseEvent(self, event):
-        self.DrawingAreaController.handleMouseRelease(event)
-        self.update()
-
     def paintEvent(self, event):
         self.DrawingAreaController.handlePaintEvent()
 

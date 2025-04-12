@@ -1,7 +1,10 @@
+from PySide6.QtWidgets import QDialog
+
 from app.views.ConfirmationDialogView import ConfirmationDialogView
 from app.views.TableContextMenuView import TableContextMenuView
 from app.views.EditTableDialogView import EditTableDialogView
 from app.controllers.TableContextMenuController import TableContextMenuController
+from app.controllers.EditTableDialogController import EditTableDialogController
 from app.enums.TableContextMenuEnum import TableContextMenuEnum
 
 
@@ -14,7 +17,7 @@ class TableController:
         self.TableContextMenuView.setup_UI()
         self.TableContextMenuController = TableContextMenuController(self.TableContextMenuView)
         self.TempTable = None
-        self.isTableInMotion = False
+        self.isTableInTransfer = False
         self.isContextMenuAtWork = False
 
     def addTable(self, cursorPosition):
@@ -32,20 +35,25 @@ class TableController:
     def editTable(self, cursorPosition):
         ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
         if ObtainedTable is not None:
-            Dialog = EditTableDialogView(self.ParentWindow)
-            Dialog.setupUi()
-            Dialog.exec()
+            EditTableDialog = EditTableDialogView(self.ParentWindow)
+            EditTableDialog.setupUi()
+            EditTableDialogControl = EditTableDialogController(EditTableDialog)
+            result = EditTableDialog.exec()
+            if result == QDialog.Accepted:
+                print("OK")
+            elif result == QDialog.Rejected:
+                print("Cancel")
 
-    def selectTableInMotion(self, cursorPosition):
+    def selectTableInTransfer(self, cursorPosition):
         self.TempTable = self.TableModel.getTableFromPosition(cursorPosition)
         if self.TempTable is not None:
             self.TableModel.deleteSelectedTable(self.TempTable)
-            self.isTableInMotion = True
+            self.isTableInTransfer = True
 
-    def unselectTableInMotion(self, cursorPosition):
+    def unselectTableInTransfer(self, cursorPosition):
         self.TempTable.changeTablePosition(cursorPosition.x(), cursorPosition.y())
         self.TableModel.addSelectedTable(self.TempTable)
-        self.isTableInMotion = False
+        self.isTableInTransfer = False
         self.TempTable = None
 
     def selectDrawTempTable(self, position):
@@ -54,8 +62,8 @@ class TableController:
     def selectDrawTable(self):
         self.TableView.drawTables()
 
-    def getTableInMotionStatus(self):
-        return self.isTableInMotion
+    def getTableInTransferStatus(self):
+        return self.isTableInTransfer
 
     def displayTableContextMenu(self, cursorPosition, globalCursorPosition):
         ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
