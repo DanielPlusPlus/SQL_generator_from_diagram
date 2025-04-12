@@ -64,9 +64,11 @@ class TableController:
             self.TableContextMenuView.exec(globalCursorPosition)
             if self.TableContextMenuController.getSelectEditTableStatus():
                 self.TableContextMenuController.unselectEditTable()
+                self.isContextMenuAtWork = False
                 return TableContextMenuEnum.EDIT
             elif self.TableContextMenuController.getSelectDeleteTableStatus():
                 self.TableContextMenuController.unselectDeleteTable()
+                self.isContextMenuAtWork = False
                 return TableContextMenuEnum.DELETE
             return TableContextMenuEnum.NONE
 
