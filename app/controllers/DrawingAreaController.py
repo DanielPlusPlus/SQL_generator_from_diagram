@@ -53,5 +53,5 @@ class DrawingAreaController:
         if self.ToolBarController.getCreateTableToolStatus():
             self.TableController.selectDrawTempTable(self.cursorPosition)
         elif self.TableController.getTableInTransferStatus():
-            self.TableController.selectDrawTempTable(self.cursorPosition)
+            self.TableController.updateTempTablePosition(self.cursorPosition)
         self.TableController.selectDrawTable()

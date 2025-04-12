@@ -4,8 +4,9 @@ from PySide6.QtWidgets import (QComboBox, QDialog, QFrame, QGridLayout, QHBoxLay
 
 
 class EditTableDialogView(QDialog):
-    def __init__(self, ParentWindow):
+    def __init__(self, ParentWindow, ObtainedTable):
         super().__init__(ParentWindow)
+        self.ObtainedTable = ObtainedTable
 
     def setupUi(self):
         if not self.objectName():
@@ -19,6 +20,7 @@ class EditTableDialogView(QDialog):
         self.tableNameLabel = QLabel(u"Table Name", self)
         self.tableNameLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.tableNameLineEdit = QLineEdit(self)
+        self.tableNameLineEdit.setText(self.ObtainedTable.getTableName())
         self.horizontalLayout.addWidget(self.tableNameLabel)
         self.horizontalLayout.addWidget(self.tableNameLineEdit)
         self.horizontalLayout.setStretch(0, 3)

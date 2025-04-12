@@ -8,6 +8,7 @@ class Table:
         self.rowHeight = rowHeight
         self.rowsNumber = rowsNumber
         self.tableNumber = tableNumber
+        self.tableName = f"Table {tableNumber}"
 
     def getRectangle(self):
         return self.Rectangle
@@ -32,6 +33,12 @@ class Table:
 
     def getTableNumber(self):
         return self.tableNumber
+
+    def getTableName(self):
+        return self.tableName
+
+    def editTableName(self, newName):
+        self.tableName = newName
 
     def contains(self, point):
         if self.Rectangle.contains(point):

@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QMainWindow
 
 from app.views.MainWindowView import MainWindowView
 from app.views.ToolBarView import ToolBarView
-from app.views.EditTableDialogView import EditTableDialogView
 from app.views.ScrollAreaView import ScrollAreaView
 from app.views.DrawingAreaView import DrawingAreaView
 from app.views.TableView import TableView
@@ -25,7 +24,6 @@ class MainWindow(QMainWindow):
         self.ToolBarView.setupUI()
         self.addToolBar(self.ToolBarView)
 
-        self.EditTableDialogView = EditTableDialogView(self)
 
         # controllers
         self.MainWindowController = MainWindowController(self.MainWindowView)

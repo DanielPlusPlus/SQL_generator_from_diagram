@@ -35,29 +35,30 @@ class TableController:
     def editTable(self, cursorPosition):
         ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
         if ObtainedTable is not None:
-            EditTableDialog = EditTableDialogView(self.ParentWindow)
+            EditTableDialog = EditTableDialogView(self.ParentWindow, ObtainedTable)
             EditTableDialog.setupUi()
-            EditTableDialogControl = EditTableDialogController(EditTableDialog)
-            result = EditTableDialog.exec()
+            EditTableDialogControl = EditTableDialogController(EditTableDialog, ObtainedTable)
+            result = EditTableDialog.displayDialog()
             if result == QDialog.Accepted:
                 print("OK")
             elif result == QDialog.Rejected:
                 print("Cancel")
 
-    def selectTableInTransfer(self, cursorPosition):
+    def selectTableInTransfer(self, cursorPosition):  # do poprawy
         self.TempTable = self.TableModel.getTableFromPosition(cursorPosition)
         if self.TempTable is not None:
-            self.TableModel.deleteSelectedTable(self.TempTable)
             self.isTableInTransfer = True
 
-    def unselectTableInTransfer(self, cursorPosition):
+    def unselectTableInTransfer(self, cursorPosition):  # do poprawy nie usuwac tabeli
         self.TempTable.changeTablePosition(cursorPosition.x(), cursorPosition.y())
-        self.TableModel.addSelectedTable(self.TempTable)
         self.isTableInTransfer = False
         self.TempTable = None
 
-    def selectDrawTempTable(self, position):
-        self.TableView.drawTempTable(position)
+    def updateTempTablePosition(self, cursorPosition):
+        self.TempTable.changeTablePosition(cursorPosition.x(), cursorPosition.y())
+
+    def selectDrawTempTable(self, cursorPosition):
+        self.TableView.drawTempTable(cursorPosition)
 
     def selectDrawTable(self):
         self.TableView.drawTables()
