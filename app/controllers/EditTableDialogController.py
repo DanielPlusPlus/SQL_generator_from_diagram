@@ -51,3 +51,5 @@ class EditTableDialogController:
     def editTableName(self):
         newName = self.EditTableDialogView.tableNameLineEdit.text()
         self.ObtainedTable.editTableName(newName)
+
+    # klucz główny trzeba dać możliwość zaznaczania

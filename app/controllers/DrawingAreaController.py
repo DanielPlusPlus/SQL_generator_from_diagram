@@ -41,6 +41,8 @@ class DrawingAreaController:
         elif event.button() == Qt.MouseButton.RightButton:
             if self.ToolBarController.getCreateTableToolStatus():
                 pass  # miejsce na anulowanie rysowania self.ToolBarController.unselectCreateTableTool()
+            elif self.TableController.getTableInTransferStatus():
+                pass
             else:
                 globalCursorPosition = self.DrawingAreaView.convertCursorPositionToGlobal(self.cursorPosition)
                 result = self.TableController.displayTableContextMenu(self.cursorPosition, globalCursorPosition)
