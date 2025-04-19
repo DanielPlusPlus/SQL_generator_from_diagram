@@ -1,6 +1,6 @@
 class ToolBarController:
     def __init__(self, ToolBarView):
-        self.TableModel = None
+        self.TablesModel = None
         self.isTableSelected = False
         ToolBarView.actionCreateTable.triggered.connect(self.selectCreateTableTool)
         ToolBarView.actionCreate_1_1_Rel.triggered.connect(self.selectCreate_1_1_Rel)
@@ -10,8 +10,8 @@ class ToolBarController:
         ToolBarView.actionGenerateSQL.triggered.connect(self.selectGenerateSQL)
         # trzeba stworzyc anulowanie akcji
 
-    def setTableModel(self, TableModel):
-        self.TableModel = TableModel
+    def setTablesModel(self, TablesModel):
+        self.TablesModel = TablesModel
 
     def selectCreateTableTool(self):
         self.isTableSelected = True

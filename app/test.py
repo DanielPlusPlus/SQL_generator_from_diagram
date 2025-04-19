@@ -599,3 +599,130 @@ class EditTableDialogView(QDialog):
 
         self.setModal(True)
 """
+"""
+from PySide6.QtCore import Qt
+import sys
+
+ORACLE_TYPES = {
+    "VARCHAR": True,
+    "NUMBER": True,
+    "DATE": False,
+    "CLOB": False,
+}
+
+
+class ColumnEditorDialog(QDialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Edytuj Tabelę")
+        self.resize(450, 300)
+        self.columns = []
+
+        layout = QVBoxLayout()
+
+        # Formularz
+        form_layout = QHBoxLayout()
+        self.name_input = QLineEdit()
+        self.type_combo = QComboBox()
+        self.type_combo.addItems(ORACLE_TYPES.keys())
+        self.length_input = QSpinBox()
+        self.length_input.setMaximum(1000)
+        self.length_input.setValue(20)
+        self.length_input.setEnabled(True)
+
+        form_layout.addWidget(QLabel("Nazwa"))
+        form_layout.addWidget(self.name_input)
+        form_layout.addWidget(QLabel("Typ"))
+        form_layout.addWidget(self.type_combo)
+        form_layout.addWidget(QLabel("Długość"))
+        form_layout.addWidget(self.length_input)
+
+        layout.addLayout(form_layout)
+
+        self.type_combo.currentTextChanged.connect(self.on_type_changed)
+
+        # Tabela kolumn
+        self.column_table = QTableWidget(0, 2)
+        self.column_table.setHorizontalHeaderLabels(["Nazwa", "Typ"])
+        self.column_table.horizontalHeader().setStretchLastSection(True)
+        self.column_table.setEditTriggers(QTableWidget.NoEditTriggers)  # <-- BLOKUJEMY EDYCJĘ
+        layout.addWidget(self.column_table)
+
+        # Ustawienie szerokości kolumn na 50%
+        self.set_column_widths()
+
+        # Przycisk dodania kolumny
+        add_button = QPushButton("Dodaj Kolumnę")
+        add_button.clicked.connect(self.add_column)
+        layout.addWidget(add_button)
+
+        # Przycisk usuwania kolumny
+        remove_button = QPushButton("Usuń Zaznaczoną Kolumnę")
+        remove_button.clicked.connect(self.remove_selected_column)
+        layout.addWidget(remove_button)
+
+        # Przycisk OK
+        ok_button = QPushButton("OK")
+        ok_button.clicked.connect(self.accept)
+        layout.addWidget(ok_button)
+
+        self.setLayout(layout)
+
+    def on_type_changed(self, text):
+        self.length_input.setEnabled(ORACLE_TYPES.get(text, False))
+
+    def add_column(self):
+        name = self.name_input.text()
+        dtype = self.type_combo.currentText()
+        length = self.length_input.value()
+
+        if not name:
+            return
+
+        type_display = f"{dtype}({length})" if ORACLE_TYPES[dtype] else dtype
+
+        row = self.column_table.rowCount()
+        self.column_table.insertRow(row)
+
+        name_item = QTableWidgetItem(name)
+        type_item = QTableWidgetItem(type_display)
+        name_item.setFlags(name_item.flags() & ~Qt.ItemIsEditable)
+        type_item.setFlags(type_item.flags() & ~Qt.ItemIsEditable)
+
+        self.column_table.setItem(row, 0, name_item)
+        self.column_table.setItem(row, 1, type_item)
+
+        self.columns.append({
+            "name": name,
+            "type": dtype,
+            "length": length if ORACLE_TYPES[dtype] else None
+        })
+
+        self.name_input.clear()
+        self.length_input.setValue(20)
+
+    def remove_selected_column(self):
+        selected_row = self.column_table.currentRow()
+        if selected_row >= 0:
+            self.column_table.removeRow(selected_row)
+            del self.columns[selected_row]
+
+    def get_columns(self):
+        return self.columns
+
+    def set_column_widths(self):
+        # Oblicz szerokość kolumn (np. każda na 50% dostępnej szerokości)
+        total_width = self.column_table.viewport().width()
+        column_width = total_width // 2
+        self.column_table.setColumnWidth(0, column_width)
+        self.column_table.setColumnWidth(1, column_width)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    dialog = ColumnEditorDialog()
+    if dialog.exec() == QDialog.Accepted:
+        columns = dialog.get_columns()
+        print(columns)
+    sys.exit(app.exec())
+"""

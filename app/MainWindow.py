@@ -4,12 +4,12 @@ from app.views.MainWindowView import MainWindowView
 from app.views.ToolBarView import ToolBarView
 from app.views.ScrollAreaView import ScrollAreaView
 from app.views.DrawingAreaView import DrawingAreaView
-from app.views.TableView import TableView
+from app.views.TablesView import TablesView
 from app.controllers.MainWindowController import MainWindowController
 from app.controllers.ToolBarController import ToolBarController
 from app.controllers.DrawingAreaController import DrawingAreaController
 from app.controllers.TableController import TableController
-from app.models.TableModel import TableModel
+from app.models.TablesModel import TablesModel
 
 
 class MainWindow(QMainWindow):
@@ -31,7 +31,7 @@ class MainWindow(QMainWindow):
         self.DrawingAreaController = DrawingAreaController()
 
         # models
-        self.TableModel = TableModel()
+        self.TablesModel = TablesModel()
 
         # views
         self.ScrollAreaView = ScrollAreaView(self)
@@ -39,15 +39,15 @@ class MainWindow(QMainWindow):
         self.ScrollAreaView.setupUI(self.DrawingAreaView)
         self.DrawingAreaView.setupUI()
         self.MainWindowView.addCentralWidget(self.ScrollAreaView)
-        self.TableView = TableView(self.TableModel, self.DrawingAreaView)
+        self.TablesView = TablesView(self.TablesModel, self.DrawingAreaView)
 
         # controllers
-        self.ToolBarController.setTableModel(self.TableModel)
+        self.ToolBarController.setTablesModel(self.TablesModel)
         self.DrawingAreaController.setDrawingAreaView(self.DrawingAreaView)
         self.DrawingAreaController.setMainWindowController(self.MainWindowController)
-        self.TableController = TableController(self, self.TableView, self.TableModel)
+        self.TableController = TableController(self, self.TablesView, self.TablesModel)
         self.DrawingAreaController.setToolBarController(self.ToolBarController)
         self.DrawingAreaController.setTableController(self.TableController)
 
         # views
-        self.DrawingAreaView.setTableModel(self.TableModel)
+        self.DrawingAreaView.setTablesModel(self.TablesModel)

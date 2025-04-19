@@ -6,15 +6,15 @@ class DrawingAreaView(QWidget):
         super().__init__()
         self.setMinimumSize(3840, 2160)
         self.DrawingAreaController = DrawingAreaController
-        self.TableModel = None
+        self.TablesModel = None
         self.TableController = None
         self.setMouseTracking(True)
 
     def setupUI(self):
         self.setObjectName(u"DrawingArea")
 
-    def setTableModel(self, TableModel):
-        self.TableModel = TableModel
+    def setTablesModel(self, TablesModel):
+        self.TablesModel = TablesModel
 
     def mouseMoveEvent(self, event):
         self.DrawingAreaController.handleMouseMove(event)

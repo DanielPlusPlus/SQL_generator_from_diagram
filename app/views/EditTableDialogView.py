@@ -1,12 +1,13 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QComboBox, QDialog, QFrame, QGridLayout, QHBoxLayout, QLabel, QLineEdit,
-                               QPushButton, QSpinBox, QTableView, QWidget)
+                               QPushButton, QSpinBox, QTableView, QWidget, QHeaderView)
 
 
 class EditTableDialogView(QDialog):
     def __init__(self, ParentWindow, ObtainedTable):
         super().__init__(ParentWindow)
         self.ObtainedTable = ObtainedTable
+        self.dataTypes = ["NUMBER", "FLOAT", "CHAR", "VARCHAR2", "NCHAR", "NVARCHAR2", "DATE", "CLOB", "BLOB"]
 
     def setupUi(self):
         if not self.objectName():
@@ -45,6 +46,7 @@ class EditTableDialogView(QDialog):
         self.dataTypeLabel = QLabel(u"Data type", self)
         self.dataTypeLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.dataTypeComboBox = QComboBox(self)
+        self.dataTypeComboBox.addItems(self.dataTypes)
         self.horizontalLayout_4.addWidget(self.dataTypeLabel)
         self.horizontalLayout_4.addWidget(self.dataTypeComboBox)
         self.horizontalLayout_4.setStretch(0, 5)
@@ -64,6 +66,9 @@ class EditTableDialogView(QDialog):
         self.horizontalLayout_7 = QHBoxLayout()
         self.tableView = QTableView(self)
         self.tableView.setFrameShape(QFrame.Shape.StyledPanel)
+        self.tableView.setModel(self.ObtainedTable.getTablesColumnsModel())
+        header = self.tableView.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.Stretch)
         self.horizontalLayout_7.addWidget(self.tableView)
         self.gridLayout.addLayout(self.horizontalLayout_7, 2, 0, 1, 3)
 

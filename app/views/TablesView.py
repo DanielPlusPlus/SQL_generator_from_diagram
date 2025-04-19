@@ -1,25 +1,25 @@
 from PySide6.QtGui import QPainter, QPen, QColor
 from PySide6.QtCore import Qt
 
-from app.models.TableModel import Table
+from app.models.TablesModel import TableModel
 
 
-class TableView:
-    def __init__(self, TableModel, ParentWindow):
-        self.TableModel = TableModel
+class TablesView:
+    def __init__(self, TablesModel, ParentWindow):
+        self.TablesModel = TablesModel
         self.ParentWindow = ParentWindow
         self.drawTables()
 
     def drawTempTable(self, position, width=100, rowsHeight=20, rowsNumber=5):
         Painter = QPainter(self.ParentWindow)
         Painter.setPen(QPen(QColor(Qt.GlobalColor.black), 2, Qt.PenStyle.SolidLine))
-        CreatedTable = Table(position.x(), position.y(), width, rowsHeight, rowsNumber, 0)
+        CreatedTable = TableModel(position.x(), position.y(), width, rowsHeight, rowsNumber, 0)
         self.drawTable(Painter, CreatedTable)
 
     def drawTables(self):
         Painter = QPainter(self.ParentWindow)
         Painter.setPen(QPen(QColor(Qt.GlobalColor.black), 2, Qt.PenStyle.SolidLine))
-        tables = self.TableModel.getTables()
+        tables = self.TablesModel.getTables()
         for ObtainedTable in tables:
             self.drawTable(Painter, ObtainedTable)
 

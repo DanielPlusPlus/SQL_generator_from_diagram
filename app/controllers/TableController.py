@@ -9,10 +9,10 @@ from app.enums.TableContextMenuEnum import TableContextMenuEnum
 
 
 class TableController:
-    def __init__(self, ParentWindow, TableView, TableModel):
+    def __init__(self, ParentWindow, TablesView, TablesModel):
         self.ParentWindow = ParentWindow
-        self.TableView = TableView
-        self.TableModel = TableModel
+        self.TablesView = TablesView
+        self.TablesModel = TablesModel
         self.TableContextMenuView = TableContextMenuView(self.ParentWindow)
         self.TableContextMenuView.setup_UI()
         self.TableContextMenuController = TableContextMenuController(self.TableContextMenuView)
@@ -21,19 +21,19 @@ class TableController:
         self.isContextMenuAtWork = False
 
     def addTable(self, cursorPosition):
-        self.TableModel.addTable(cursorPosition)
+        self.TablesModel.addTable(cursorPosition)
 
     def deleteTable(self, cursorPosition):
-        ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
+        ObtainedTable = self.TablesModel.getTableFromPosition(cursorPosition)
         if ObtainedTable is not None:
             dialogTitle = "WARNING"
             dialogText = "Are you about deleting this table?"
             ConfirmationDialog = ConfirmationDialogView(self.ParentWindow, dialogTitle, dialogText)
             if ConfirmationDialog.displayDialog():
-                self.TableModel.deleteSelectedTable(ObtainedTable)
+                self.TablesModel.deleteSelectedTable(ObtainedTable)
 
     def editTable(self, cursorPosition):
-        ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
+        ObtainedTable = self.TablesModel.getTableFromPosition(cursorPosition)
         if ObtainedTable is not None:
             EditTableDialog = EditTableDialogView(self.ParentWindow, ObtainedTable)
             EditTableDialog.setupUi()
@@ -45,7 +45,7 @@ class TableController:
                 print("Cancel")
 
     def selectTableInTransfer(self, cursorPosition):  # do poprawy
-        self.TempTable = self.TableModel.getTableFromPosition(cursorPosition)
+        self.TempTable = self.TablesModel.getTableFromPosition(cursorPosition)
         if self.TempTable is not None:
             self.isTableInTransfer = True
 
@@ -58,16 +58,16 @@ class TableController:
         self.TempTable.changeTablePosition(cursorPosition.x(), cursorPosition.y())
 
     def selectDrawTempTable(self, cursorPosition):
-        self.TableView.drawTempTable(cursorPosition)
+        self.TablesView.drawTempTable(cursorPosition)
 
     def selectDrawTable(self):
-        self.TableView.drawTables()
+        self.TablesView.drawTables()
 
     def getTableInTransferStatus(self):
         return self.isTableInTransfer
 
     def displayTableContextMenu(self, cursorPosition, globalCursorPosition):
-        ObtainedTable = self.TableModel.getTableFromPosition(cursorPosition)
+        ObtainedTable = self.TablesModel.getTableFromPosition(cursorPosition)
         if ObtainedTable is not None:
             self.isContextMenuAtWork = True
             self.TableContextMenuView.exec(globalCursorPosition)
