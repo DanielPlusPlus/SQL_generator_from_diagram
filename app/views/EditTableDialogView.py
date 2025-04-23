@@ -66,7 +66,7 @@ class EditTableDialogView(QDialog):
         self.horizontalLayout_7 = QHBoxLayout()
         self.tableView = QTableView(self)
         self.tableView.setFrameShape(QFrame.Shape.StyledPanel)
-        self.tableView.setModel(self.ObtainedTable.getTablesColumnsModel())
+        self.tableView.setModel(self.ObtainedTable.getTableColumnsModel())
         header = self.tableView.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
         self.horizontalLayout_7.addWidget(self.tableView)

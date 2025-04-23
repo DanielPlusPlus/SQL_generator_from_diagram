@@ -42,7 +42,7 @@ class TableModel:
     def editTableName(self, newName):
         self.tableName = newName
 
-    def getTablesColumnsModel(self):
+    def getTableColumnsModel(self):
         return self.TableColumnsModel
 
     def contains(self, point):

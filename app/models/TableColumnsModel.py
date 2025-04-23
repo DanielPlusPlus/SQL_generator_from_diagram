@@ -21,27 +21,27 @@ class TableColumnsModel(QAbstractTableModel):
 
         if role in (Qt.DisplayRole, Qt.EditRole):
             if column == 0:
-                return self.columns[row]["name"]
+                return self.columns[row]["columnName"]
             elif column == 1:
-                return self.columns[row]["type"]
+                return self.columns[row]["dataType"]
             elif column == 2:
-                return ""
+                return self.columns[row]["length"]
             elif column == 3:
                 return ""
             elif column == 4:
                 return ""
             elif column == 5:
                 return ""
+            elif column == 6:
+                return ""
 
-        if role == Qt.CheckStateRole and column == 2:
-            return Qt.Checked if self.columns[row]["uq"] else Qt.Unchecked
-        elif role == Qt.CheckStateRole and column == 3:
-            return Qt.Checked if self.columns[row]["uq"] else Qt.Unchecked
-        elif role == Qt.CheckStateRole and column == 3:
-            return Qt.Checked if self.columns[row]["notnull"] else Qt.Unchecked
+        if role == Qt.CheckStateRole and column == 3:
+            return Qt.Checked if self.columns[row]["unique"] else Qt.Unchecked
         elif role == Qt.CheckStateRole and column == 4:
-            return Qt.Checked if self.columns[row]["pk"] else Qt.Unchecked
+            return Qt.Checked if self.columns[row]["notNull"] else Qt.Unchecked
         elif role == Qt.CheckStateRole and column == 5:
+            return Qt.Checked if self.columns[row]["pk"] else Qt.Unchecked
+        elif role == Qt.CheckStateRole and column == 6:
             return Qt.Checked if self.columns[row]["fk"] else Qt.Unchecked
 
         return None
@@ -55,3 +55,20 @@ class TableColumnsModel(QAbstractTableModel):
             return str(section + 1)
 
         return None
+
+    def addColumn(self, columnName, dataType, length):
+        self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
+        self.columns.append({"columnName": columnName, "dataType": dataType, "length": length, "unique": False,
+                             "notNull": False, "pk": False, "fk": False})
+        self.endInsertRows()
+
+    def getOriginalColumns(self):
+        return self.columns
+
+    def getCopiedColumns(self):
+        return self.columns.copy()
+
+    def changeColumns(self, columns):
+        self.beginResetModel()
+        self.columns = columns
+        self.endResetModel()

@@ -2,9 +2,12 @@ class EditTableDialogController:
     def __init__(self, EditTableDialogView, ObtainedTable):
         self.EditTableDialogView = EditTableDialogView
         self.ObtainedTable = ObtainedTable
-        self.isAddColumnSelected = False
-        self.isDeleteColumnSelected = False
+        self.TableColumnsModel = ObtainedTable.getTableColumnsModel()
+        self.originalColumns = self.TableColumnsModel.getOriginalColumns()
+        self.copiedColumns = self.TableColumnsModel.getCopiedColumns()
+        self.TableColumnsModel.changeColumns(self.copiedColumns)
         self.isEditColumnSelected = False
+
         self.EditTableDialogView.addColumnButton.clicked.connect(self.selectAddColumn)
         self.EditTableDialogView.deleteColumnButton.clicked.connect(self.selectDeleteColumn)
         self.EditTableDialogView.editColumnButton.clicked.connect(self.selectEditColumn)
@@ -12,24 +15,18 @@ class EditTableDialogController:
         self.EditTableDialogView.okButton.clicked.connect(self.selectOK)
 
     def selectAddColumn(self):
-        print("Add column")
-        self.isAddColumnSelected = True
+        columnName = self.EditTableDialogView.columnNameLineEdit.text()
+        dataType = self.EditTableDialogView.dataTypeComboBox.currentText()
+        length = self.EditTableDialogView.lengthSpinBox.value()
 
-    def unselectAddColumn(self):
-        self.isAddColumnSelected = False
+        self.TableColumnsModel.addColumn(columnName, dataType, length)
 
-    def getSelectAddColumnStatus(self):
-        return self.isAddColumnSelected
+        self.EditTableDialogView.columnNameLineEdit.clear()
+        self.EditTableDialogView.dataTypeComboBox.setCurrentIndex(0)
+        self.EditTableDialogView.lengthSpinBox.setValue(0)
 
     def selectDeleteColumn(self):
-        self.isDeleteColumnSelected = True
         print("Delete column")
-
-    def unselectDeleteColumn(self):
-        self.isDeleteColumnSelected = False
-
-    def getSelectDeleteColumnStatus(self):
-        return self.isDeleteColumnSelected
 
     def selectEditColumn(self):
         self.isEditColumnSelected = True
@@ -42,6 +39,7 @@ class EditTableDialogController:
         return self.isEditColumnSelected
 
     def selectCancel(self):
+        self.restoreOriginalTableColumns()
         self.EditTableDialogView.reject()
 
     def selectOK(self):
@@ -52,4 +50,5 @@ class EditTableDialogController:
         newName = self.EditTableDialogView.tableNameLineEdit.text()
         self.ObtainedTable.editTableName(newName)
 
-    # klucz główny trzeba dać możliwość zaznaczania
+    def restoreOriginalTableColumns(self):
+        self.TableColumnsModel.changeColumns(self.originalColumns)
