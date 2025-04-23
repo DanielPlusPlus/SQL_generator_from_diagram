@@ -1,12 +1,19 @@
+from app.models.TableColumnsModel import TableColumnsModel
+
+from copy import deepcopy
+
+
 class EditTableDialogController:
     def __init__(self, EditTableDialogView, ObtainedTable):
         self.EditTableDialogView = EditTableDialogView
         self.ObtainedTable = ObtainedTable
-        self.TableColumnsModel = ObtainedTable.getTableColumnsModel()
-        self.originalColumns = self.TableColumnsModel.getOriginalColumns()
-        self.copiedColumns = self.TableColumnsModel.getCopiedColumns()
-        self.TableColumnsModel.changeColumns(self.copiedColumns)
+        ObtainedTableColumnsModel = ObtainedTable.getTableColumnsModel()
+        originalColumns = ObtainedTableColumnsModel.getColumns()
+        copiedColumns = deepcopy(originalColumns)
+        self.TempTableColumnsModel = TableColumnsModel(copiedColumns)
         self.isEditColumnSelected = False
+
+        self.EditTableDialogView.tableView.setModel(self.TempTableColumnsModel)
 
         self.EditTableDialogView.addColumnButton.clicked.connect(self.selectAddColumn)
         self.EditTableDialogView.deleteColumnButton.clicked.connect(self.selectDeleteColumn)
@@ -19,7 +26,7 @@ class EditTableDialogController:
         dataType = self.EditTableDialogView.dataTypeComboBox.currentText()
         length = self.EditTableDialogView.lengthSpinBox.value()
 
-        self.TableColumnsModel.addColumn(columnName, dataType, length)
+        self.TempTableColumnsModel.addColumn(columnName, dataType, length)
 
         self.EditTableDialogView.columnNameLineEdit.clear()
         self.EditTableDialogView.dataTypeComboBox.setCurrentIndex(0)
@@ -39,16 +46,16 @@ class EditTableDialogController:
         return self.isEditColumnSelected
 
     def selectCancel(self):
-        self.restoreOriginalTableColumns()
         self.EditTableDialogView.reject()
 
     def selectOK(self):
         self.editTableName()
+        self.editTableColumns()
         self.EditTableDialogView.accept()
 
     def editTableName(self):
         newName = self.EditTableDialogView.tableNameLineEdit.text()
         self.ObtainedTable.editTableName(newName)
 
-    def restoreOriginalTableColumns(self):
-        self.TableColumnsModel.changeColumns(self.originalColumns)
+    def editTableColumns(self):
+        self.ObtainedTable.changeTableColumnsModel(self.TempTableColumnsModel)

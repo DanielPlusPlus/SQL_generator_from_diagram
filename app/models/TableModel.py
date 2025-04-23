@@ -2,6 +2,7 @@ from PySide6.QtCore import QRect
 
 from app.models.TableColumnsModel import TableColumnsModel
 
+
 class TableModel:
     def __init__(self, x, y, width, rowHeight, rowsNumber, tableNumber):
         self.Rectangle = QRect(x - width // 2, y - (rowHeight * rowsNumber) // 2, width, rowHeight * rowsNumber)
@@ -44,6 +45,9 @@ class TableModel:
 
     def getTableColumnsModel(self):
         return self.TableColumnsModel
+
+    def changeTableColumnsModel(self, NewTableColumnsModel):
+        self.TableColumnsModel = NewTableColumnsModel
 
     def contains(self, point):
         if self.Rectangle.contains(point):

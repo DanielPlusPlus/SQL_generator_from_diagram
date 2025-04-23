@@ -2,9 +2,9 @@ from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 
 
 class TableColumnsModel(QAbstractTableModel):
-    def __init__(self):
+    def __init__(self, columns=None):
         super().__init__()
-        self.columns = []
+        self.columns = columns or []
 
     def rowCount(self, parent=QModelIndex()):
         return len(self.columns)
@@ -62,13 +62,5 @@ class TableColumnsModel(QAbstractTableModel):
                              "notNull": False, "pk": False, "fk": False})
         self.endInsertRows()
 
-    def getOriginalColumns(self):
+    def getColumns(self):
         return self.columns
-
-    def getCopiedColumns(self):
-        return self.columns.copy()
-
-    def changeColumns(self, columns):
-        self.beginResetModel()
-        self.columns = columns
-        self.endResetModel()
