@@ -10,7 +10,7 @@ class TableColumnsModel(QAbstractTableModel):
         return len(self.columns)
 
     def columnCount(self, parent=QModelIndex):
-        return 6
+        return 7
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -26,13 +26,7 @@ class TableColumnsModel(QAbstractTableModel):
                 return self.columns[row]["dataType"]
             elif column == 2:
                 return self.columns[row]["length"]
-            elif column == 3:
-                return ""
-            elif column == 4:
-                return ""
-            elif column == 5:
-                return ""
-            elif column == 6:
+            elif column in (3, 4, 5, 6):
                 return ""
 
         if role == Qt.CheckStateRole and column == 3:
@@ -48,7 +42,7 @@ class TableColumnsModel(QAbstractTableModel):
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            headers = ["Column Name", "Type", "UNIQUE", "NOT NULL", "PK", "FK"]
+            headers = ["Column Name", "Type", "Length", "UNIQUE", "NOT NULL", "PK", "FK"]
             return headers[section]
 
         if orientation == Qt.Vertical and role == Qt.DisplayRole:
@@ -56,7 +50,7 @@ class TableColumnsModel(QAbstractTableModel):
 
         return None
 
-    def addColumn(self, columnName, dataType, length):
+    def addColumn(self, dataType, length, columnName="Empty Name"):
         self.beginInsertRows(QModelIndex(), self.rowCount(), self.rowCount())
         self.columns.append({"columnName": columnName, "dataType": dataType, "length": length, "unique": False,
                              "notNull": False, "pk": False, "fk": False})

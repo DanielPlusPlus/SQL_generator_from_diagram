@@ -26,7 +26,7 @@ class EditTableDialogController:
         dataType = self.EditTableDialogView.dataTypeComboBox.currentText()
         length = self.EditTableDialogView.lengthSpinBox.value()
 
-        self.TempTableColumnsModel.addColumn(columnName, dataType, length)
+        self.TempTableColumnsModel.addColumn(dataType, length, columnName)
 
         self.EditTableDialogView.columnNameLineEdit.clear()
         self.EditTableDialogView.dataTypeComboBox.setCurrentIndex(0)
