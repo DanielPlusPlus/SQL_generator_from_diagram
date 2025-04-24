@@ -33,7 +33,10 @@ class EditTableDialogController:
         self.EditTableDialogView.lengthSpinBox.setValue(0)
 
     def selectDeleteColumn(self):
-        print("Delete column")
+        selectedRows = self.EditTableDialogView.tableView.selectionModel().selectedRows()
+        if selectedRows:
+            selectedRowNumber = selectedRows[0].row()
+            self.TempTableColumnsModel.deleteColumn(selectedRowNumber)
 
     def selectEditColumn(self):
         self.isEditColumnSelected = True

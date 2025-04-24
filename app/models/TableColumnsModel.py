@@ -56,5 +56,11 @@ class TableColumnsModel(QAbstractTableModel):
                              "notNull": False, "pk": False, "fk": False})
         self.endInsertRows()
 
+    def deleteColumn(self, row):
+        if 0 <= row < self.rowCount():
+            self.beginRemoveRows(QModelIndex(), row, row)
+            del self.columns[row]
+            self.endRemoveRows()
+
     def getColumns(self):
         return self.columns
