@@ -2,6 +2,8 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (QComboBox, QDialog, QFrame, QGridLayout, QHBoxLayout, QLabel, QLineEdit,
                                QPushButton, QSpinBox, QTableView, QWidget, QHeaderView)
 
+from app.views.delegates.ComboBoxDelegate import ComboBoxDelegate
+
 
 class EditTableDialogView(QDialog):
     def __init__(self, ParentWindow, ObtainedTable):
@@ -72,8 +74,11 @@ class EditTableDialogView(QDialog):
         self.tableView.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
         self.tableView.setSelectionMode(QTableView.SelectionMode.SingleSelection)
         self.tableView.setModel(self.ObtainedTable.getTableColumnsModel())
+        dataTypesComboDelegate = ComboBoxDelegate(self.dataTypes, self.tableView)
+        self.tableView.setItemDelegateForColumn(1, dataTypesComboDelegate)
         header = self.tableView.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.Stretch)
+
         self.horizontalLayout_7.addWidget(self.tableView)
         self.gridLayout.addLayout(self.horizontalLayout_7, 2, 0, 1, 3)
 

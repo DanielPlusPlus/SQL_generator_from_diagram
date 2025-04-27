@@ -29,16 +29,62 @@ class TableColumnsModel(QAbstractTableModel):
             elif column in (3, 4, 5, 6):
                 return ""
 
-        if role == Qt.CheckStateRole and column == 3:
-            return Qt.Checked if self.columns[row]["unique"] else Qt.Unchecked
-        elif role == Qt.CheckStateRole and column == 4:
-            return Qt.Checked if self.columns[row]["notNull"] else Qt.Unchecked
-        elif role == Qt.CheckStateRole and column == 5:
-            return Qt.Checked if self.columns[row]["pk"] else Qt.Unchecked
-        elif role == Qt.CheckStateRole and column == 6:
-            return Qt.Checked if self.columns[row]["fk"] else Qt.Unchecked
+        if role == Qt.CheckStateRole:
+            if column == 3:
+                return Qt.Checked if self.columns[row]["unique"] else Qt.Unchecked
+            elif column == 4:
+                return Qt.Checked if self.columns[row]["notNull"] else Qt.Unchecked
+            elif column == 5:
+                return Qt.Checked if self.columns[row]["pk"] else Qt.Unchecked
+            elif column == 6:
+                return Qt.Unchecked
 
         return None
+
+    def flags(self, index):
+        if not index.isValid():
+            return Qt.NoItemFlags
+
+        if index.column() in (0, 1, 2):
+            return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+        if index.column() in (3, 4, 5):
+            return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsUserCheckable
+        if index.column() == 6:
+            return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+
+        return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+
+    def setData(self, index, value, role=Qt.EditRole):
+        if not index.isValid():
+            return None
+
+        row = index.row()
+        column = index.column()
+
+        if role == Qt.EditRole:
+            if column == 0:
+                self.columns[row]["columnName"] = value
+            elif column == 1:
+                self.columns[row]["dataType"] = value
+            elif column == 2:
+                self.columns[row]["length"] = value
+            self.dataChanged.emit(index, index)
+            return True
+
+        if role == Qt.CheckStateRole:
+            value = Qt.CheckState(value)
+            if column == 3:
+                self.columns[row]["unique"] = (value == Qt.Checked)
+            elif column == 4:
+                self.columns[row]["notNull"] = (value == Qt.Checked)
+            elif column == 5:
+                self.columns[row]["pk"] = (value == Qt.Checked)
+            elif column == 6:
+                pass
+            self.dataChanged.emit(index, index, [Qt.DisplayRole, Qt.EditRole, Qt.CheckStateRole])
+            return True
+
+        return False
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
