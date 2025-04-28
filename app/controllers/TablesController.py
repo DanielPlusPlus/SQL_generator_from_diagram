@@ -8,7 +8,7 @@ from app.controllers.EditTableDialogController import EditTableDialogController
 from app.enums.TableContextMenuEnum import TableContextMenuEnum
 
 
-class TableController:
+class TablesController:
     def __init__(self, ParentWindow, TablesView, TablesModel):
         self.ParentWindow = ParentWindow
         self.TablesView = TablesView
@@ -60,7 +60,7 @@ class TableController:
     def selectDrawTempTable(self, cursorPosition):
         self.TablesView.drawTempTable(cursorPosition)
 
-    def selectDrawTable(self):
+    def selectDrawTables(self):
         self.TablesView.drawTables()
 
     def getTableInTransferStatus(self):

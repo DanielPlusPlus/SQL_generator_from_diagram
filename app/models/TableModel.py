@@ -10,7 +10,10 @@ class TableModel:
         self.rowHeight = rowHeight
         self.rowsNumber = rowsNumber
         self.tableNumber = tableNumber
-        self.tableName = f"Table {tableNumber}"
+        if not self.tableNumber:
+            self.tableName = "New Table"
+        else:
+            self.tableName = f"Table {tableNumber}"
         self.TableColumnsModel = TableColumnsModel()
 
     def getRectangle(self):

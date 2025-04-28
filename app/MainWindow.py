@@ -8,7 +8,7 @@ from app.views.TablesView import TablesView
 from app.controllers.MainWindowController import MainWindowController
 from app.controllers.ToolBarController import ToolBarController
 from app.controllers.DrawingAreaController import DrawingAreaController
-from app.controllers.TableController import TableController
+from app.controllers.TablesController import TablesController
 from app.models.TablesModel import TablesModel
 
 
@@ -23,7 +23,6 @@ class MainWindow(QMainWindow):
         self.ToolBarView = ToolBarView(self)
         self.ToolBarView.setupUI()
         self.addToolBar(self.ToolBarView)
-
 
         # controllers
         self.MainWindowController = MainWindowController(self.MainWindowView)
@@ -45,9 +44,9 @@ class MainWindow(QMainWindow):
         self.ToolBarController.setTablesModel(self.TablesModel)
         self.DrawingAreaController.setDrawingAreaView(self.DrawingAreaView)
         self.DrawingAreaController.setMainWindowController(self.MainWindowController)
-        self.TableController = TableController(self, self.TablesView, self.TablesModel)
+        self.TablesController = TablesController(self, self.TablesView, self.TablesModel)
         self.DrawingAreaController.setToolBarController(self.ToolBarController)
-        self.DrawingAreaController.setTableController(self.TableController)
+        self.DrawingAreaController.setTablesController(self.TablesController)
 
         # views
         self.DrawingAreaView.setTablesModel(self.TablesModel)
