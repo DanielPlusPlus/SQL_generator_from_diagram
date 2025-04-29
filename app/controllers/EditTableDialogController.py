@@ -54,6 +54,7 @@ class EditTableDialogController:
     def selectOK(self):
         self.editTableName()
         self.editTableColumns()
+        self.editTableDimensions()
         self.EditTableDialogView.accept()
 
     def editTableName(self):
@@ -62,3 +63,6 @@ class EditTableDialogController:
 
     def editTableColumns(self):
         self.ObtainedTable.changeTableColumnsModel(self.TempTableColumnsModel)
+
+    def editTableDimensions(self):
+        self.ObtainedTable.changeTableDimensions()

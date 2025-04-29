@@ -44,12 +44,12 @@ class TablesController:
             elif result == QDialog.Rejected:
                 print("Cancel")
 
-    def selectTableInTransfer(self, cursorPosition):  # do poprawy
+    def selectTableInTransfer(self, cursorPosition):
         self.TempTable = self.TablesModel.getTableFromPosition(cursorPosition)
         if self.TempTable is not None:
             self.isTableInTransfer = True
 
-    def unselectTableInTransfer(self, cursorPosition):  # do poprawy nie usuwac tabeli
+    def unselectTableInTransfer(self, cursorPosition):
         self.TempTable.changeTablePosition(cursorPosition.x(), cursorPosition.y())
         self.isTableInTransfer = False
         self.TempTable = None

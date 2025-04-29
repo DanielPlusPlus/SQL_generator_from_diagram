@@ -4,11 +4,17 @@ from app.models.TableColumnsModel import TableColumnsModel
 
 
 class TableModel:
-    def __init__(self, x, y, width, rowHeight, rowsNumber, tableNumber):
-        self.Rectangle = QRect(x - width // 2, y - (rowHeight * rowsNumber) // 2, width, rowHeight * rowsNumber)
+    def __init__(self, x, y, width, rowHeight, minRowsNumber, tableNumber):
+        self.Rectangle = QRect(
+            x - width // 2,
+            y - (rowHeight * minRowsNumber) // 2,
+            width,
+            rowHeight * minRowsNumber
+        )
         self.tableWidth = width
         self.rowHeight = rowHeight
-        self.rowsNumber = rowsNumber
+        self.minRowsNumber = minRowsNumber
+        self.rowsNumber = minRowsNumber
         self.tableNumber = tableNumber
         if not self.tableNumber:
             self.tableName = "New Table"
@@ -49,14 +55,30 @@ class TableModel:
     def getTableColumnsModel(self):
         return self.TableColumnsModel
 
+    def getTableColumns(self):
+        return self.TableColumnsModel.columns
+
+    def changeTableDimensions(self):
+        self.rowsNumber = max(self.minRowsNumber, self.TableColumnsModel.rowCount())
+        self.Rectangle = QRect(
+            self.getLeft(),
+            self.getTop(),
+            self.tableWidth,
+            self.rowsNumber * self.rowHeight
+        )
+
     def changeTableColumnsModel(self, NewTableColumnsModel):
         self.TableColumnsModel = NewTableColumnsModel
+
+    def changeTablePosition(self, x, y):
+        newRectangle = QRect(
+            x - self.getTableWidth() // 2,
+            y - (self.getRowHeight() * self.getRowsNumber()) // 2,
+            self.getTableWidth(),
+            self.rowHeight * self.getRowsNumber()
+        )
+        self.Rectangle = newRectangle
 
     def contains(self, point):
         if self.Rectangle.contains(point):
             return True
-
-    def changeTablePosition(self, x, y):
-        newRectangle = QRect(x - self.getTableWidth() // 2, y - (self.getRowHeight() * self.getRowsNumber()) // 2,
-                             self.getTableWidth(), self.rowHeight * self.getRowsNumber())
-        self.Rectangle = newRectangle

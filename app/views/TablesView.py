@@ -24,9 +24,10 @@ class TablesView:
             self.drawTable(Painter, ObtainedTable)
 
     def drawTable(self, Painter, ObtainedTable):
-        obtainedTableColumns = ObtainedTable.getTableColumnsModel().getColumns()
+        obtainedTableColumns = ObtainedTable.getTableColumns()
 
-        font = QFont("Impact", 10)
+        font = QFont("Sans", 10)
+        font.setBold(True)
         Painter.setFont(font)
 
         titleRectangle = QRect(
@@ -37,7 +38,11 @@ class TablesView:
         )
         Painter.drawText(titleRectangle, Qt.AlignCenter, ObtainedTable.getTableName())
 
-        for i in range(ObtainedTable.getRowsNumber() + 1):
-            y = ObtainedTable.getTop() + i * ObtainedTable.getRowHeight()
-            Painter.drawLine(ObtainedTable.getLeft(), y, ObtainedTable.getRight(), y)
+        for row in range(ObtainedTable.getRowsNumber()):
+            y = ObtainedTable.getTop() + row * ObtainedTable.getRowHeight()
+            rowRectangle = QRect(ObtainedTable.getLeft(), y, ObtainedTable.getTableWidth(),
+                                 ObtainedTable.getRowHeight())
+            Painter.drawRect(rowRectangle)
+            if row < len(obtainedTableColumns):
+                Painter.drawText(rowRectangle, Qt.AlignCenter, f"{obtainedTableColumns[row]["columnName"]}")
         Painter.drawRect(ObtainedTable.getRectangle())

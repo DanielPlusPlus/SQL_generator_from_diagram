@@ -8,8 +8,8 @@ class TablesModel:
         self.tables = []
         self.tableNumber = 1
 
-    def addTable(self, position, width=100, rowsHeight=20, rowsNumber=5):
-        CreatedTable = TableModel(position.x(), position.y(), width, rowsHeight, rowsNumber, self.tableNumber)
+    def addTable(self, position, width=100, rowsHeight=20, minRowsNumber=5):
+        CreatedTable = TableModel(position.x(), position.y(), width, rowsHeight, minRowsNumber, self.tableNumber)
         self.tables.append(CreatedTable)
         self.tableNumber += 1
 
